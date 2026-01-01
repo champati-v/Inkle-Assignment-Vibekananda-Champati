@@ -40,7 +40,7 @@ const CountryFilterModal = <T,>({ table }: Props<T>) => {
       <PopoverTrigger asChild>
         <button
           type="button"
-          className="text-primary ml-20 hover:bg-primary/10 p-2 rounded-md transition-colors cursor-pointer"
+          className="text-primary ml-[-14] lg:ml-20 hover:bg-primary/10 p-2 rounded-md transition-colors cursor-pointer"
         >
           <FilterIcon size={16} />
         </button>

@@ -2,7 +2,6 @@ import capitalizeFirstLetter from "@/utils/Capitalize";
 import { formatDate } from "@/utils/formatDate";
 import { createColumnHelper } from "@tanstack/react-table";
 import CountryFilterModal from "../modals/CountryFilterModal";
-import { fetchUsers } from "@/lib/api";
 import EditUserInfoModal from "../modals/EditUserInfoModal";
 import { Badge } from "../ui/badge";
 
@@ -47,7 +46,11 @@ export const columns = [
 
   columnHelper.accessor("requestDate", {
     cell: (info) => formatDate(info.getValue()),
-    header: () => <span>Request Date</span>,
+    header: () => 
+    <>
+      <span className="hidden lg:block">Request Date</span>
+      <span className="block lg:hidden">Req. Date</span>
+    </>,
   }),
 
   columnHelper.accessor("country", {
