@@ -7,7 +7,7 @@ The reason for choosing Next.js is because I've started to learn Next.js since a
 
 ---
 
-## Deployed Link - https://github.com/champati-v/Inkle-Assignment-Vibekananda-Champati
+## Deployed Link - https://inkle-assignment-vibek.vercel.app/
 
 ## 1. Setup Instructions (Run Locally)
 
