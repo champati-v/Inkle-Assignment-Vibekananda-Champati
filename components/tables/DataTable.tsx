@@ -15,8 +15,10 @@ import Pagination from "./Pagination";
 import { User } from "./Columns";
 import { columns } from "./Columns";
 import TableRowSkeleton from "./TableRowSkeleton";
+import { useAutoAnimate } from "@formkit/auto-animate/react";
 
 const DataTable = () => {
+  const [parent] = useAutoAnimate();
   const [data, setData] = useState<User[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -41,7 +43,8 @@ const DataTable = () => {
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
-  });
+  }); 
+
 
   useEffect(() => {
     fetchUsers()
@@ -79,8 +82,9 @@ const DataTable = () => {
             ))}
           </thead>
 
-          <tbody
-            className="block overflow-y-auto"
+          <tbody 
+            className="block overflow-y-auto transition-all duration-300 ease-in-out"
+            ref={parent}
             style={{
               maxHeight:
                 table.getState().pagination.pageSize >= 10 ? "360px" : "auto",

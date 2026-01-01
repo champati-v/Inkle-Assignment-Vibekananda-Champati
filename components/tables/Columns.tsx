@@ -69,9 +69,9 @@ export const columns = [
     ),
     header: ({ table }) => {
       const column = table.getColumn("country");
-      const isFiltered =
-        Array.isArray(column?.getFilterValue()) &&
-        column!.getFilterValue()!.length > 0;
+      const filterValue = column?.getFilterValue();
+
+      const isFiltered = Array.isArray(filterValue) && filterValue.length > 0;
 
       return (
         <div className="flex items-center gap-2 relative">
@@ -81,7 +81,7 @@ export const columns = [
             <CountryFilterModal table={table} />
 
             {isFiltered && (
-              <span className="absolute -top-1 -right-1 h-2 w-2 rounded-full bg-[#5622FF]" />
+              <span className="absolute -top-1 -right-1 h-1.5 w-1.5 rounded-full bg-primary/80 ring-2 ring-primary/30" />
             )}
           </div>
         </div>

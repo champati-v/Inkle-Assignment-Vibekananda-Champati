@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Edit, LocateIcon, MapPin, Pencil } from "lucide-react";
+import { Check, Edit, LocateIcon, MapPin, Pencil } from "lucide-react";
 import { updateTaxUser } from "@/lib/api";
 import { useCountries } from "@/context/CountriesContext";
 
@@ -48,7 +48,9 @@ const EditUserInfoModal = ({ user, onSuccess }: Props) => {
         country,
       });
       onSuccess(updated);
-      toast.success("User updated successfully");
+      toast("User updated successfully", {
+        icon: <Check className="text-[#5622FF] bg-primary/10 p-1 rounded-full" size={20} />,
+      });
       setOpen(false);
     } catch (err) {
       console.error(err);

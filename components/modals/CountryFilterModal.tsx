@@ -1,6 +1,6 @@
 "use client";
 
-import { FilterIcon } from "lucide-react";
+import { FilterIcon, X } from "lucide-react";
 import { Table } from "@tanstack/react-table";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
@@ -29,6 +29,10 @@ const CountryFilterModal = <T,>({ table }: Props<T>) => {
 
     column.setFilterValue(updated.length ? updated : undefined);
   };
+
+  const clearAll = () => {
+    column.setFilterValue(undefined);
+  };
   
 
   return (
@@ -46,6 +50,21 @@ const CountryFilterModal = <T,>({ table }: Props<T>) => {
         align="start"
         className="w-48 p-3 h-52 space-y-2 overflow-y-scroll"
       >
+        {selectedValues.length > 0 && (
+          <button
+            onClick={clearAll}
+            className="
+              flex items-center gap-2
+              text-sm text-primary
+              hover:bg-primary/10
+              mb-2 w-full p-2 cursor-pointer border-b border-gray-300
+            "
+          >
+            <X size={14} />
+            Clear all
+          </button>
+        )}
+
         {countries.map((country) => (
           <label
             key={country.id}
