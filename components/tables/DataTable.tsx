@@ -83,7 +83,7 @@ const DataTable = () => {
           </thead>
 
           <tbody 
-            className="block overflow-y-auto transition-all duration-300 ease-in-out"
+            className="block overflow-y-auto transition-all duration-300 ease-in-out overflow-x-hidden"
             ref={parent}
             style={{
               maxHeight:
