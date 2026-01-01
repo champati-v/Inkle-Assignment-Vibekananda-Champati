@@ -53,6 +53,7 @@ const CountryFilterModal = <T,>({ table }: Props<T>) => {
             <Checkbox
               checked={selectedValues.includes(country.name)}
               onCheckedChange={() => toggleCountry(country.name)}
+              className=" data-[state=checked]:bg-[#5622FF]  data-[state=checked]:border-[#5622FF] data-[state=checked]:text-white"
             />
             {country.name}
           </label>

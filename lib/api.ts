@@ -13,3 +13,25 @@ export async function fetchCountries() {
   if (!(res.status === 200)) throw new Error("Failed to fetch countries");
   return res.json();
 }
+
+export async function updateTaxUser(
+  id: string,
+  payload: { entity: string; country: string }
+) {
+  const res = await fetch(
+    `${BASE_URL}/taxes/${id}`,
+    {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(payload),
+    }
+  );
+
+  if (!(res.status === 200)) {
+    throw new Error("Failed to update user");
+  }
+
+  return res.json();
+}
