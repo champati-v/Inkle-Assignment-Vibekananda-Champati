@@ -1,8 +1,10 @@
-import React from 'react'
+import DataTable from '@/components/tables/DataTable'
 
 const page = () => {
   return (
-    <div>page</div>
+    <div>
+      <DataTable />
+    </div>
   )
 }
 
