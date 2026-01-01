@@ -4,6 +4,7 @@ import { createColumnHelper } from "@tanstack/react-table";
 import CountryFilterModal from "../modals/CountryFilterModal";
 import { fetchUsers } from "@/lib/api";
 import EditUserInfoModal from "../modals/EditUserInfoModal";
+import { Badge } from "../ui/badge";
 
 export type User = {
   id: string;
@@ -14,7 +15,7 @@ export type User = {
 };
 
 export type TableMeta = {
-  refetchUsers: () => void;
+  updateUser: (user: User) => void;
 };
 
 const columnHelper = createColumnHelper<User>();
@@ -22,7 +23,7 @@ export const columns = [
   columnHelper.accessor("entity", {
     id: "entity",
     cell: (info) => (
-      <span className="text-[#5622FF]">
+      <span className="text-primary">
         {capitalizeFirstLetter(info.getValue())}
       </span>
     ),
@@ -30,7 +31,17 @@ export const columns = [
   }),
 
   columnHelper.accessor("gender", {
-    cell: (info) => capitalizeFirstLetter(info.getValue()),
+    cell: (info) => (
+      <>
+        <Badge
+          variant={
+            info.getValue().toLocaleLowerCase() === "male" ? "Male" : "Female"
+          }
+        >
+          {capitalizeFirstLetter(info.getValue())}
+        </Badge>
+      </>
+    ),
     header: () => <span>Gender</span>,
   }),
 
@@ -50,18 +61,32 @@ export const columns = [
             entity: row.original.entity,
             country: row.original.country,
           }}
-          onSuccess={() => {
-             table.options.meta?.refetchUsers?.()
+          onSuccess={(updatedUser) => {
+            table.options.meta?.updateUser?.(updatedUser);
           }}
         />
       </div>
     ),
-    header: ({ table }) => (
-      <div className="flex items-center justify-start gap-20 sm:gap-2">
-        Country
-        <CountryFilterModal table={table} />
-      </div>
-    ),
+    header: ({ table }) => {
+      const column = table.getColumn("country");
+      const isFiltered =
+        Array.isArray(column?.getFilterValue()) &&
+        column!.getFilterValue()!.length > 0;
+
+      return (
+        <div className="flex items-center gap-2 relative">
+          <span>Country</span>
+
+          <div className="relative">
+            <CountryFilterModal table={table} />
+
+            {isFiltered && (
+              <span className="absolute -top-1 -right-1 h-2 w-2 rounded-full bg-[#5622FF]" />
+            )}
+          </div>
+        </div>
+      );
+    },
     filterFn: (row, columnId, filterValue: string[]) => {
       if (!filterValue?.length) return true;
       return filterValue.includes(row.getValue(columnId));

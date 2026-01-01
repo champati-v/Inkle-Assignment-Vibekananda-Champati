@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Edit, Pencil } from "lucide-react";
+import { Edit, LocateIcon, MapPin, Pencil } from "lucide-react";
 import { updateTaxUser } from "@/lib/api";
 import { useCountries } from "@/context/CountriesContext";
 
@@ -21,6 +21,8 @@ import {
   SelectContent,
   SelectItem,
 } from "@/components/ui/select";
+import { User } from "../tables/Columns";
+import { toast } from "sonner"
 
 type Props = {
   user: {
@@ -28,7 +30,7 @@ type Props = {
     entity: string;
     country: string;
   };
-  onSuccess: () => void; 
+  onSuccess: (updatedUser: User) => void; 
 };
 
 const EditUserInfoModal = ({ user, onSuccess }: Props) => {
@@ -41,14 +43,16 @@ const EditUserInfoModal = ({ user, onSuccess }: Props) => {
   const handleSave = async () => {
     try {
       setLoading(true);
-      await updateTaxUser(user.id, {
+      const updated = await updateTaxUser(user.id, {
         entity: name,
         country,
       });
+      onSuccess(updated);
+      toast.success("User updated successfully");
       setOpen(false);
-      onSuccess();
     } catch (err) {
       console.error(err);
+      toast.error("Failed to update user. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -58,7 +62,7 @@ const EditUserInfoModal = ({ user, onSuccess }: Props) => {
     <>
       <button
         onClick={() => setOpen(true)}
-        className="text-gray-500 hover:text-[#5622FF] transition-colors hover:bg-gray-100 p-2 rounded-md cursor-pointer"
+        className="text-gray-500 hover:text-primary transition-colors hover:bg-primary/10 p-2 rounded-md cursor-pointer"
       >
         <Edit size={16} />
       </button>
@@ -69,7 +73,6 @@ const EditUserInfoModal = ({ user, onSuccess }: Props) => {
             <DialogTitle>Edit Customer</DialogTitle>
           </DialogHeader>
 
-          {/* Form */}
           <div className="space-y-4">
             <div>
               <label className="text-sm text-gray-500">
@@ -89,7 +92,8 @@ const EditUserInfoModal = ({ user, onSuccess }: Props) => {
 
                 <SelectContent>
                   {countries.map((c) => (
-                    <SelectItem key={c.id} value={c.name}>
+                    <SelectItem key={c.id} value={c.name} className="flex items-center justify-between gap-2">
+                      <MapPin />
                       {c.name}
                     </SelectItem>
                   ))}
@@ -103,7 +107,7 @@ const EditUserInfoModal = ({ user, onSuccess }: Props) => {
               Cancel
             </Button>
             <Button
-              className="bg-[#5622FF] hover:bg-[#5622FF]/90 text-white cursor-pointer"
+              className="bg-primary hover:bg-primary/90 text-white cursor-pointer"
               disabled={!name || loading}
               onClick={handleSave}
             >

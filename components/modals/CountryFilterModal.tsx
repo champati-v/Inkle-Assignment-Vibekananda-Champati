@@ -29,15 +29,16 @@ const CountryFilterModal = <T,>({ table }: Props<T>) => {
 
     column.setFilterValue(updated.length ? updated : undefined);
   };
+  
 
   return (
     <Popover>
       <PopoverTrigger asChild>
         <button
           type="button"
-          className="text-[#5622FF] hover:opacity-80"
+          className="text-primary ml-20 hover:bg-primary/10 p-2 rounded-md transition-colors cursor-pointer"
         >
-          <FilterIcon size={16} className="ml-20" />
+          <FilterIcon size={16} />
         </button>
       </PopoverTrigger>
 
@@ -53,7 +54,7 @@ const CountryFilterModal = <T,>({ table }: Props<T>) => {
             <Checkbox
               checked={selectedValues.includes(country.name)}
               onCheckedChange={() => toggleCountry(country.name)}
-              className=" data-[state=checked]:bg-[#5622FF]  data-[state=checked]:border-[#5622FF] data-[state=checked]:text-white"
+              className=" data-[state=checked]:bg-primary  data-[state=checked]:border-primary data-[state=checked]:text-white"
             />
             {country.name}
           </label>
