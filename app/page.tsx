@@ -1,10 +1,14 @@
 import DataTable from '@/components/tables/DataTable'
+import { CountriesProvider } from '@/context/CountriesContext'
+import { fetchCountries } from '@/lib/api'
 
-const page = () => {
+async function page() {
+  const countries = await fetchCountries();  
+ 
   return (
-    <div>
+    <CountriesProvider countries={countries}>
       <DataTable />
-    </div>
+    </CountriesProvider>
   )
 }
 

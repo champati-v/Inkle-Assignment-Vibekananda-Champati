@@ -8,23 +8,19 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import { useCountries } from "@/context/CountriesContext";
 
 type Props<T> = {
   table: Table<T>;
 };
 
 const CountryFilterModal = <T,>({ table }: Props<T>) => {
+  const countries = useCountries(); 
   const column = table.getColumn("country");
 
   if (!column) return null;
 
   const selectedValues = (column.getFilterValue() as string[]) || [];
-
-  const countries = Array.from(
-    new Set(table.getPreFilteredRowModel().rows.map(
-      (row) => row.getValue("country")
-    ))
-  ) as string[];
 
   const toggleCountry = (country: string) => {
     const updated = selectedValues.includes(country)
@@ -37,25 +33,28 @@ const CountryFilterModal = <T,>({ table }: Props<T>) => {
   return (
     <Popover>
       <PopoverTrigger asChild>
-        <button className="text-[#5622FF] hover:opacity-80">
+        <button
+          type="button"
+          className="text-[#5622FF] hover:opacity-80"
+        >
           <FilterIcon size={16} className="ml-20" />
         </button>
       </PopoverTrigger>
 
       <PopoverContent
         align="start"
-        className="w-48 p-3 space-y-2"
+        className="w-48 p-3 h-52 space-y-2 overflow-y-scroll"
       >
         {countries.map((country) => (
           <label
-            key={country}
+            key={country.id}
             className="flex items-center gap-2 text-sm cursor-pointer"
           >
             <Checkbox
-              checked={selectedValues.includes(country)}
-              onCheckedChange={() => toggleCountry(country)}
+              checked={selectedValues.includes(country.name)}
+              onCheckedChange={() => toggleCountry(country.name)}
             />
-            {country}
+            {country.name}
           </label>
         ))}
       </PopoverContent>

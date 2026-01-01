@@ -18,7 +18,7 @@ import {
 } from "lucide-react";
 import { User } from "@/types/index";
 import mockData from "@/data/mockData.json";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import capitalizeFirstLetter from "@/utils/Capitalize";
 import {
   Select,
@@ -31,6 +31,7 @@ import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { formatDate } from "@/utils/formatDate";
 import CountryFilterModal from "../modals/CountryFilterModal";
+import { fetchUsers } from "@/lib/api";
 
 const columnHelper = createColumnHelper<User>();
 
@@ -80,7 +81,8 @@ const columns = [
 ];
 
 const DataTable = () => {
-  const [data] = useState([...mockData]);
+  const [data, setData] = useState<User[]>([]);
+  const [loading, setLoading] = useState(false);
 
   const table = useReactTable({
     data,
@@ -94,6 +96,12 @@ const DataTable = () => {
     getPaginationRowModel: getPaginationRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
   });
+
+  useEffect(() => {
+    fetchUsers()
+      .then(setData)
+      .finally(() => setLoading(false));
+  }, []);
 
 
   return (
